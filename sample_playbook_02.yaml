@@ -1,0 +1,157 @@
+
+---
+- name: This sets up an httpd webserver
+  hosts: testserver
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+
+#$  ansible-playbook -i inventory httpd.yaml -u ec2-user --key-file remote.pem -b    
+    
+---
+- name: This sets up an httpd webserver
+  hosts: all
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+    
+#$  ansible-playbook -i inventory httpd.yaml -u ec2-user --key-file remote.pem -b 
+
+ 
+---
+- name: This sets up an httpd webserver
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+  vars:
+   ansible_ssh_private_key_file: remote.pem
+   pack: httpd
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+
+    
+#$  ansible-playbook -i inventory httpd.yaml
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+  vars:
+   ansible_ssh_private_key_file: remote.pem
+   companyname: verizon
+   pack: httpd
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: Deploy configuration File
+    template: src=templates/index.j2 dest=/var/www/html/index.html
+  - name: start the httpd service
+    service: name=httpd state=started
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+
+    
+#$  ansible-playbook -i inventory httpd.yaml
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+  vars:
+   ansible_ssh_private_key_file: remote.pem
+   companyname: verizon
+   pack: httpd
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: Deploy configuration File
+    template: src=templates/index.j2 dest=/var/www/html/index.html
+  - name: start the httpd service
+    service: name=httpd state=started
+  - name: Install common software requirements
+    yum: pkg={{ item }} state=installed
+    with_items:
+     - git
+     - ntp
+     - vim
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+
+    
+#$  ansible-playbook -i inventory httpd.yaml
+
+
+---
+- name: This sets up an httpd webserver
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+  vars:
+   ansible_ssh_private_key_file: remote.pem
+   companyname: verizon
+   pack: httpd
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: Deploy configuration File
+    template: src=templates/index.j2 dest=/var/www/html/index.html
+  - name: start the httpd service
+    service: name=httpd state=started
+  - name: Install common software requirements
+    yum: pkg={{ item }} state=installed
+    with_items:
+     - git
+     - ntp
+     - vim
+  - name: Creating a file
+    file: path=/opt/verizon.txt state=touch
+    when:
+      - ansible_distribution == "RedHat"
+      - ansible_distribution_major_version == "7.5"
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+
+    
+#$  ansible-playbook -i inventory httpd.yaml
+
+  tasks:
+  - name: Install the httpd apps
+    yum: name=httpd
+  - name: start the httpd service
+    service: name=httpd state=started
+#  - name: Open port 80
+#    firewalld: service=http permanent=true state=enabled
+#  - name: start the firewalld service
+#    service: name=firewalld state=stopped enabled:no
+    
+#$  ansible-playbook -i inventory httpd.yaml -u ec2-user --key-file remote.pem -b 
+    
